@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+echo "---- Running database migrations ----"
+flask db upgrade
+echo "---- Migration complete ----"

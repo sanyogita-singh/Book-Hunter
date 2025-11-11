@@ -13,3 +13,6 @@ app.db
 *.sqlite3
 static/uploads/*
 !static/uploads/.keep
+instance/
+*.db
+migrations/

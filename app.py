@@ -3,6 +3,7 @@ import os
 import uuid
 from datetime import datetime
 from collections import defaultdict
+from flask_migrate import Migrate
 from flask import Flask, render_template, request, redirect, url_for, flash, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required, UserMixin
@@ -10,7 +11,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-DB_PATH = os.path.join(BASE_DIR, "app.db")
+DB_PATH = os.path.join(BASE_DIR, "instance", "app.db")
 UPLOAD_FOLDER = os.path.join(BASE_DIR, "static", "uploads")
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif", "webp"}
 
@@ -22,13 +23,9 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
-# --- Auto-create DB tables on startup (safe for production) ---
-try:
-    with app.app_context():
-        db.create_all()
-except Exception as e:
-    print(f"DB init skipped/failed: {e}")
+
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
