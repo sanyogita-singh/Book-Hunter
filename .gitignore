@@ -15,4 +15,3 @@ static/uploads/*
 !static/uploads/.keep
 instance/
 *.db
-migrations/
